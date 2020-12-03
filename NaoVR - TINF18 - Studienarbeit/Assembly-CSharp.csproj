@@ -91,7 +91,6 @@
     <Compile Include="Assets\NaoVR_Workspace\Scripts\BehaviorController.cs" />
     <Compile Include="Assets\NaoVR_Workspace\Scripts\DiagnosticConnector.cs" />
     <Compile Include="Assets\NaoVR_Workspace\Scripts\DistanceCheckpoint.cs" />
-    <Compile Include="Assets\NaoVR_Workspace\Scripts\GrabManager.cs" />
     <Compile Include="Assets\NaoVR_Workspace\Scripts\LEDActionClient.cs" />
     <Compile Include="Assets\NaoVR_Workspace\Scripts\LEDController.cs" />
     <Compile Include="Assets\NaoVR_Workspace\Scripts\MessageTypes\BlinkActionFeedback.cs" />
