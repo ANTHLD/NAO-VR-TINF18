@@ -14,6 +14,9 @@ public class SceneManager : StateListener
     public JointStatePublisher publisher;
     public BehaviorController behaviorController;
 
+    private Vector3 _previousRobotVector;
+    private Vector3 _invisibleRobot = new Vector3(0, 0, 0);
+
     private SteamVR_Action_Boolean grabStuff = SteamVR_Actions._default.CloseHand;
 
     void Start()
@@ -53,9 +56,11 @@ public class SceneManager : StateListener
                 publisher.DoPublish = false;
 
                 RightGripMarker.SetActive(false);
-                //LeftGripMarker.SetActive(true);
                 RightHandMarker.SetActive(true);
                 LeftHandMarker.SetActive(true);
+
+                // Roboter anzeigen
+                Nao.transform.localScale = _previousRobotVector;
                 break;
             case StateManager.State.armed:
                 InfoCanvas.SetActive(false);
@@ -72,6 +77,11 @@ public class SceneManager : StateListener
                 LeftGripMarker.SetActive(false);
                 RightHandMarker.SetActive(false);
                 LeftHandMarker.SetActive(false);
+
+                // Speichern der bisherigen Skalierung des Roboters
+                // Der Roboter wird ausgeblendet, sodass die Arme erkannt werden können (wichtig fürs greifen)
+                _previousRobotVector = Nao.transform.localScale;
+                Nao.transform.localScale = _invisibleRobot;
                 break;
         }
     }
