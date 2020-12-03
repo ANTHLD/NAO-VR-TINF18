@@ -3,6 +3,7 @@ using RosSharp.RosBridgeClient;
 using RosSharp.RosBridgeClient.Services;
 using UnityEngine;
 using msgs = RosSharp.RosBridgeClient.Messages;
+using System.Linq;
 
 namespace NaoApi.Walker
 {
@@ -10,16 +11,32 @@ namespace NaoApi.Walker
     {
         public RosSocket socket;
         public StiffnessController stiffnessController;
+
         private string publication_id;
+        private Valve.VR.SteamVR_TrackedObject _leftLeg;
+        private Valve.VR.SteamVR_TrackedObject _rightLeg;
+
+        private Vector3 _previousLeftPosition;
+        private Vector3 _previousRightPosition;
+
         void Start()
         {
             GameObject Connector = GameObject.FindWithTag("Connector");
             socket = Connector.GetComponent<RosConnector>()?.RosSocket;
             publication_id = socket.Advertise<msgs.Geometry.Twist>("/cmd_vel");
+
+            var trackedObjects = FindObjectsOfType<Valve.VR.SteamVR_TrackedObject>();
+            _leftLeg = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device5);
+            _rightLeg = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device6);
         }
 
         private void Update()
         {
+            if (_previousLeftPosition == null)
+                _previousLeftPosition = _leftLeg.transform.position;
+            if (_previousRightPosition == null)
+                _previousRightPosition = _rightLeg.transform.position;
+
             if (Input.GetKeyUp(KeyCode.UpArrow)|| Input.GetKeyUp(KeyCode.RightArrow)|| Input.GetKeyUp(KeyCode.LeftArrow))
             {
                 stopWalking();
