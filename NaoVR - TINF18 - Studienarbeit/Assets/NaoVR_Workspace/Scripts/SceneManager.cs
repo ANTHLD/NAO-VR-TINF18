@@ -77,7 +77,7 @@ public class SceneManager : StateListener
                 RightHandMarker.SetActive(false);
                 LeftHandMarker.SetActive(false);
 
-                // Speichern der bisherigen Skalierung des Roboters
+                // Speichern der bisherigen Skalierung des Roboters asd
                 // Der Roboter wird ausgeblendet, sodass die Arme erkannt werden können (wichtig fürs greifen)
                 _previousRobotVector = Nao.transform.localScale;
                 Nao.transform.localScale = Vector3.zero;
