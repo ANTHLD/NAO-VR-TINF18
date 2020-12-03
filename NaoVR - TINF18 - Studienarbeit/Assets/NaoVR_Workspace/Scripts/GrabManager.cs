@@ -56,28 +56,4 @@ public class GrabManager : StateListener
         //    }
         //}
     }
-
-    private void PublishMessage(RosSharp.RosBridgeClient.Messages.DennisMessage message)
-    {
-        //sm.publisher.DoPublish = true;
-        //sm.publisher.PublishMessage(message);
-    }
-
-    private void OpenHand(string handName)
-    {
-        RosSharp.RosBridgeClient.Messages.DennisMessage dm = new RosSharp.RosBridgeClient.Messages.DennisMessage();
-        dm.joint_names[0] = handName;
-        dm.joint_angles[0] = 1;
-        dm.speed = 1f;
-        PublishMessage(dm);
-    }
-
-    private void CloseHand(string handName)
-    {
-        RosSharp.RosBridgeClient.Messages.DennisMessage dm = new RosSharp.RosBridgeClient.Messages.DennisMessage();
-        dm.joint_names[0] = handName;
-        dm.joint_angles[0] = 0.01f;
-        dm.speed = 1f;
-        PublishMessage(dm);
-    }
 }

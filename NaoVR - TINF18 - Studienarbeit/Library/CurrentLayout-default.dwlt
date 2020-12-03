@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -46,7 +46,7 @@ MonoBehaviour:
     y: 0
     width: 1440
     height: 817
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -112,10 +112,10 @@ MonoBehaviour:
     y: 30
     width: 1440
     height: 767
-  m_MinSize: {x: 677, y: 492}
-  m_MaxSize: {x: 14001, y: 14042}
+  m_MinSize: {x: 678, y: 471}
+  m_MaxSize: {x: 14001, y: 14021}
   vertical: 0
-  controlID: 486
+  controlID: 562
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -137,10 +137,10 @@ MonoBehaviour:
     y: 0
     width: 1089
     height: 767
-  m_MinSize: {x: 402, y: 492}
-  m_MaxSize: {x: 10001, y: 14042}
+  m_MinSize: {x: 402, y: 471}
+  m_MaxSize: {x: 10000, y: 14021}
   vertical: 1
-  controlID: 375
+  controlID: 563
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
-  controlID: 376
+  controlID: 564
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -390,8 +390,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 16f6ffff
-      m_LastClickedID: -2538
+      m_SelectedIDs: b6340000
+      m_LastClickedID: 0
       m_ExpandedIDs: 70fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -552,9 +552,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 365
+    x: 456
     y: 73
-    width: 722
+    width: 631
     height: 475
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &16
@@ -596,19 +596,19 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/NaoVR_Workspace/Scripts/MessageTypes
+    - Assets/NaoVR_Workspace/Scripts
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/NaoVR_Workspace/Scripts/MessageTypes
+  - Assets/NaoVR_Workspace/Scripts
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: C:\Users\DHBW\Documents\NaoVR\Project\NaoVR - TINF18 - Studienarbeit
+  m_LastProjectPath: C:\Users\DHBW\Documents\Test Repo\NaoVR - TINF18 - Studienarbeit
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 94}
-    m_SelectedIDs: 4c5c0000
-    m_LastClickedID: 23628
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: 025c0000
+    m_LastClickedID: 23554
     m_ExpandedIDs: 00000000f65b0000f85b0000fa5b0000fc5b0000fe5b0000005c0000025c0000045c0000065c0000085c00000a5c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300008c64000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
