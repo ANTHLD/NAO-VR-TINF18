@@ -26,9 +26,4 @@ public class GrabManager : StateListener
         if (rightWriter == null)
             Debug.Log("No Writer Component found in Module " + transform.parent.name);
     }
-
-    void Update()
-    {
-        
-    }
 }
