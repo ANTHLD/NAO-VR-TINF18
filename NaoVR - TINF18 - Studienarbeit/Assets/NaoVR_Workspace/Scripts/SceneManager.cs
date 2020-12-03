@@ -15,7 +15,6 @@ public class SceneManager : StateListener
     public BehaviorController behaviorController;
 
     private Vector3 _previousRobotVector;
-    private Vector3 _invisibleRobot = new Vector3(0, 0, 0);
 
     private SteamVR_Action_Boolean grabStuff = SteamVR_Actions._default.CloseHand;
 
@@ -81,7 +80,7 @@ public class SceneManager : StateListener
                 // Speichern der bisherigen Skalierung des Roboters
                 // Der Roboter wird ausgeblendet, sodass die Arme erkannt werden können (wichtig fürs greifen)
                 _previousRobotVector = Nao.transform.localScale;
-                Nao.transform.localScale = _invisibleRobot;
+                Nao.transform.localScale = Vector3.zero;
                 break;
         }
     }
