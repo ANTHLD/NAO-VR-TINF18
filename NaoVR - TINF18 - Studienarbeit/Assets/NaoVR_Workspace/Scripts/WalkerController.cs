@@ -4,6 +4,7 @@ using RosSharp.RosBridgeClient.Services;
 using UnityEngine;
 using msgs = RosSharp.RosBridgeClient.Messages;
 using System.Linq;
+using System;
 
 namespace NaoApi.Walker
 {
@@ -32,19 +33,17 @@ namespace NaoApi.Walker
 
         private void Update()
         {
-            if (_previousLeftPosition == null)
+            if (_previousLeftPosition == Vector3.zero)
                 _previousLeftPosition = _leftLeg.transform.position;
-            if (_previousRightPosition == null)
+            if (_previousRightPosition == Vector3.zero)
                 _previousRightPosition = _rightLeg.transform.position;
 
-            if (Input.GetKeyUp(KeyCode.UpArrow)|| Input.GetKeyUp(KeyCode.RightArrow)|| Input.GetKeyUp(KeyCode.LeftArrow))
-            {
-                stopWalking();
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            int differenceY = Convert.ToInt32(_leftLeg.transform.position.y - _previousLeftPosition.y);
+            if (differenceY > 0)
             {
                 walkAhead();
+                System.Threading.Thread.Sleep(1000);
+                stopWalking();
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))

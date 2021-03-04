@@ -431,6 +431,9 @@
     <Reference Include="RosBridgeClient">
       <HintPath>C:/Users/DHBW/Documents/Test Repo/NaoVR - TINF18 - Studienarbeit/Assets/RosSharp/Plugins/RosBridgeClient.dll</HintPath>
     </Reference>
+    <Reference Include="System.Speech">
+      <HintPath>C:/Users/DHBW/Documents/Test Repo/NaoVR - TINF18 - Studienarbeit/Assets/RosSharp/Plugins/System.Speech.dll</HintPath>
+    </Reference>
     <Reference Include="Urdf">
       <HintPath>C:/Users/DHBW/Documents/Test Repo/NaoVR - TINF18 - Studienarbeit/Assets/RosSharp/Plugins/Urdf.dll</HintPath>
     </Reference>
