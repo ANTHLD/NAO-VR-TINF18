@@ -60,6 +60,9 @@ namespace NaoApi.Speech
             _readMode = !_readMode;
             _firstStart = false;
 
+            if (_readMode)
+                say("Ich verstehe dich");
+
             if (!_readMode && !String.IsNullOrEmpty(_textToRead))
             {
                 say(_textToRead);
