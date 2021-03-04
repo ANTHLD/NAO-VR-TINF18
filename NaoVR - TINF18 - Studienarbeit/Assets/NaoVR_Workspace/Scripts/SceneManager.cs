@@ -15,6 +15,7 @@ public class SceneManager : StateListener
     public BehaviorController behaviorController;
 
     private Vector3 _previousRobotVector;
+    private bool _grabbingLeft, _grabbingRight;
 
     private SteamVR_Action_Boolean grabStuff = SteamVR_Actions._default.CloseHand;
 
@@ -107,26 +108,30 @@ public class SceneManager : StateListener
     {
         if (state == StateManager.State.armed)
         {
-            if (grabStuff.GetStateDown(SteamVR_Input_Sources.RightHand))
+            if (grabStuff.GetStateDown(SteamVR_Input_Sources.RightHand) && !_grabbingRight)
             {
+                _grabbingRight = true;
                 Debug.Log("closeRightHand");
                 CloseHand("RHand");
             }
 
-            if (grabStuff.GetStateUp(SteamVR_Input_Sources.RightHand))
+            if (grabStuff.GetStateUp(SteamVR_Input_Sources.RightHand) && _grabbingRight)
             {
+                _grabbingRight = false;
                 Debug.Log("openRightHand");
                 OpenHand("RHand");
             }
 
-            if (grabStuff.GetStateDown(SteamVR_Input_Sources.LeftHand))
+            if (grabStuff.GetStateDown(SteamVR_Input_Sources.LeftHand) && !_grabbingLeft)
             {
+                _grabbingLeft = true;
                 Debug.Log("closeLeftHand");
                 CloseHand("LHand");
             }
 
-            if (grabStuff.GetStateUp(SteamVR_Input_Sources.LeftHand))
+            if (grabStuff.GetStateUp(SteamVR_Input_Sources.LeftHand) && _grabbingLeft)
             {
+                _grabbingLeft = false;
                 Debug.Log("openLeftHand");
                 OpenHand("LHand");
             }

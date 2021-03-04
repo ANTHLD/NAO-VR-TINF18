@@ -30,7 +30,6 @@ namespace NaoApi.Speech
             dictationRecognizer = new DictationRecognizer();
             dictationRecognizer.DictationError += DictationRecognizer_DictationError;
             dictationRecognizer.DictationResult += DictationRecognizer_DictationResult;
-            dictationRecognizer.Start();
         }
 
         private void DictationRecognizer_DictationError(string error, int hresult)
@@ -45,6 +44,8 @@ namespace NaoApi.Speech
 
         void Update()
         {
+            if (dictationRecognizer != null && dictationRecognizer.Status == SpeechSystemStatus.Stopped)
+                dictationRecognizer.Start();
         }
         public void say(string text)
         {
