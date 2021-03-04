@@ -19,6 +19,7 @@ namespace NaoApi.Walker
 
         private Vector3 _previousLeftPosition;
         private Vector3 _previousRightPosition;
+        private bool _walking;
 
         void Start()
         {
@@ -39,11 +40,13 @@ namespace NaoApi.Walker
                 _previousRightPosition = _rightLeg.transform.position;
 
             int differenceY = Convert.ToInt32(_leftLeg.transform.position.y - _previousLeftPosition.y);
-            if (differenceY > 0)
+            if (differenceY > 0 && !_walking)
             {
+                _walking = true;
                 walkAhead();
                 System.Threading.Thread.Sleep(1000);
                 stopWalking();
+                _walking = false;
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))

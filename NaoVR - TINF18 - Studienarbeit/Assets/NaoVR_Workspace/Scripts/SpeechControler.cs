@@ -13,6 +13,9 @@ namespace NaoApi.Speech
         private RosSocket socket;
         private string publication_id;
         private DictationRecognizer dictationRecognizer;
+        private bool _readMode;
+        private bool _firstStart = true;
+        private string _textToRead = String.Empty;
 
         public std_msgs.String message;
         void Start()
@@ -39,7 +42,11 @@ namespace NaoApi.Speech
 
         private void DictationRecognizer_DictationResult(string text, ConfidenceLevel confidence)
         {
-            say(text);
+            if (_firstStart)
+                return;
+
+            if (_readMode)
+                _textToRead += text;
         }
 
         void Update()
@@ -47,6 +54,30 @@ namespace NaoApi.Speech
             if (dictationRecognizer != null && dictationRecognizer.Status == SpeechSystemStatus.Stopped)
                 dictationRecognizer.Start();
         }
+
+        public void StartOrStopReadMode()
+        {
+            _readMode = !_readMode;
+            _firstStart = false;
+
+            if (!_readMode && !String.IsNullOrEmpty(_textToRead))
+            {
+                say(_textToRead);
+                _textToRead = String.Empty;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (dictationRecognizer != null)
+            {
+                dictationRecognizer.DictationError -= DictationRecognizer_DictationError;
+                dictationRecognizer.DictationResult -= DictationRecognizer_DictationResult;
+                dictationRecognizer.Stop();
+                dictationRecognizer.Dispose();
+            }
+        }
+
         public void say(string text)
         {
             message.data = text;
