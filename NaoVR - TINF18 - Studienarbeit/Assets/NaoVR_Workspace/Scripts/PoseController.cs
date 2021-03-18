@@ -23,14 +23,15 @@ namespace NaoApi.Pose
 
             if (Input.GetKeyDown(KeyCode.F3))
             {
-                runPose("Crounch");
+                runPose("Crouch");
             }
         }
 
         public void runPose(string poseName)
         {
             actionClient.poseName = poseName;
-            actionClient.SendGoal();
+            actionClient.rosSocket.Publish("naoqi_msgs/BodyPose", actionClient.GetGoal());
+            //actionClient.SendGoal();
 
         }
     }

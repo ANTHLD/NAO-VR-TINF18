@@ -42,11 +42,11 @@ namespace NaoApi.Walker
             int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousWalkPosition.y);
             if (differenceY > 0 && !_walking)
             {
-                //_walking = true;
-                //walkAhead();
-                //System.Threading.Thread.Sleep(1000);
-                //stopWalking();
-                //_walking = false;
+                _walking = true;
+                walkAhead();
+                System.Threading.Thread.Sleep(1000);
+                stopMoving();
+                _walking = false;
             }
 
             int yDifference = Convert.ToInt32(_turnTracker.transform.eulerAngles.y - _previousTurnPosition.y);

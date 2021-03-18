@@ -50,10 +50,4 @@ public class NavigationManager : StateListener
     {
         poseController.runPose("StandZero");
     }
-
-    public void StopMoving()
-    {
-        walkerController.stopMoving();
-        Stand();
-    }
 }
