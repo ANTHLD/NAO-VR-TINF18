@@ -15,7 +15,7 @@ public class SceneManager : StateListener
     public BehaviorController behaviorController;
 
     private Vector3 _previousRobotVector;
-    private bool _grabbingLeft, _grabbingRight;
+    private bool _grabbingLeft, _grabbingRight, _rightHandling, _leftHandling;
 
     private SteamVR_Action_Boolean grabStuff = SteamVR_Actions._default.CloseHand;
 
@@ -68,6 +68,7 @@ public class SceneManager : StateListener
                 StatusText.color = Color.red;
                 publisher.DoPublish = true;
                 OpenHand("RHand");
+                System.Threading.Thread.Sleep(500);
                 OpenHand("LHand");
 
                 ImageCanvas.SetActive(false);
@@ -93,6 +94,7 @@ public class SceneManager : StateListener
         dm.joint_angles[0] = 1;
         dm.speed = 1f;
         publisher.PublishMessage(dm);
+        System.Threading.Thread.Sleep(1000);
     }
 
     private void CloseHand(string handName)
@@ -102,38 +104,43 @@ public class SceneManager : StateListener
         dm.joint_angles[0] = 0.01f;
         dm.speed = 1f;
         publisher.PublishMessage(dm);
+        System.Threading.Thread.Sleep(1000);
+    }
+
+    private void HandleRightHand()
+    {
+        if (_grabbingRight)
+            CloseHand("RHand");
+        else
+            OpenHand("RHand");
+        _rightHandling = false;
+    }
+
+    private void HandleLeftHand()
+    {
+        if (_grabbingLeft)
+            CloseHand("LHand");
+        else
+            OpenHand("LHand");
+        _leftHandling = false;
     }
 
     void Update()
     {
         if (state == StateManager.State.armed)
         {
-            if (grabStuff.GetStateDown(SteamVR_Input_Sources.RightHand) && !_grabbingRight)
+            if (grabStuff.GetStateDown(SteamVR_Input_Sources.RightHand) && !_rightHandling)
             {
-                _grabbingRight = true;
-                Debug.Log("closeRightHand");
-                CloseHand("RHand");
+                _rightHandling = true;
+                _grabbingRight = !_grabbingRight;
+                HandleRightHand();
             }
 
-            if (grabStuff.GetStateUp(SteamVR_Input_Sources.RightHand) && _grabbingRight)
+            if (grabStuff.GetStateDown(SteamVR_Input_Sources.LeftHand) && !_leftHandling)
             {
-                _grabbingRight = false;
-                Debug.Log("openRightHand");
-                OpenHand("RHand");
-            }
-
-            if (grabStuff.GetStateDown(SteamVR_Input_Sources.LeftHand) && !_grabbingLeft)
-            {
-                _grabbingLeft = true;
-                Debug.Log("closeLeftHand");
-                CloseHand("LHand");
-            }
-
-            if (grabStuff.GetStateUp(SteamVR_Input_Sources.LeftHand) && _grabbingLeft)
-            {
-                _grabbingLeft = false;
-                Debug.Log("openLeftHand");
-                OpenHand("LHand");
+                _leftHandling = true;
+                _grabbingLeft = !_grabbingLeft;
+                HandleLeftHand();
             }
         }
     }

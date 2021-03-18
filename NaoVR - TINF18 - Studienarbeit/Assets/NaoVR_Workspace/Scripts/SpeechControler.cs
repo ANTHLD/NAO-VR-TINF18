@@ -25,7 +25,7 @@ namespace NaoApi.Speech
             publication_id = socket.Advertise<std_msgs.String>("/speech");
             message = new std_msgs.String();
             InitializeSpeechEngine();
-            say("Hallo, i bims, Dennis. Du bist erfolgreich verbunden.");
+            say("Ich bin bereit.");
         }
 
         private void InitializeSpeechEngine()

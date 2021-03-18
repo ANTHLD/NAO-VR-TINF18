@@ -14,8 +14,8 @@ namespace NaoApi.Walker
         public StiffnessController stiffnessController;
 
         private string publication_id;
-        private Valve.VR.SteamVR_TrackedObject _leftLeg;
-        private Valve.VR.SteamVR_TrackedObject _rightLeg;
+        private Valve.VR.SteamVR_TrackedObject _walkTracker;
+        private Valve.VR.SteamVR_TrackedObject _turnTracker;
 
         private Vector3 _previousLeftPosition;
         private Vector3 _previousRightPosition;
@@ -28,18 +28,18 @@ namespace NaoApi.Walker
             publication_id = socket.Advertise<msgs.Geometry.Twist>("/cmd_vel");
 
             var trackedObjects = FindObjectsOfType<Valve.VR.SteamVR_TrackedObject>();
-            _leftLeg = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device5);
-            _rightLeg = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device6);
+            _walkTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device5);
+            _turnTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device6);
         }
 
         private void Update()
         {
             if (_previousLeftPosition == Vector3.zero)
-                _previousLeftPosition = _leftLeg.transform.position;
+                _previousLeftPosition = _walkTracker.transform.position;
             if (_previousRightPosition == Vector3.zero)
-                _previousRightPosition = _rightLeg.transform.position;
+                _previousRightPosition = _turnTracker.transform.position;
 
-            int differenceY = Convert.ToInt32(_leftLeg.transform.position.y - _previousLeftPosition.y);
+            int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousLeftPosition.y);
             if (differenceY > 0 && !_walking)
             {
                 _walking = true;
