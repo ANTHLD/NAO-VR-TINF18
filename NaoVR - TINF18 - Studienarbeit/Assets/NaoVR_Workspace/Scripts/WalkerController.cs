@@ -17,9 +17,9 @@ namespace NaoApi.Walker
         private Valve.VR.SteamVR_TrackedObject _walkTracker;
         private Valve.VR.SteamVR_TrackedObject _turnTracker;
 
-        private Vector3 _previousLeftPosition;
-        private Vector3 _previousRightPosition;
-        private bool _walking;
+        private Vector3 _previousWalkPosition;
+        private Vector3 _previousTurnPosition;
+        private bool _walking, _turning;
 
         void Start()
         {
@@ -34,29 +34,33 @@ namespace NaoApi.Walker
 
         private void Update()
         {
-            if (_previousLeftPosition == Vector3.zero)
-                _previousLeftPosition = _walkTracker.transform.position;
-            if (_previousRightPosition == Vector3.zero)
-                _previousRightPosition = _turnTracker.transform.position;
+            if (_previousWalkPosition == Vector3.zero)
+                _previousWalkPosition = _walkTracker.transform.position;
+            if (_previousTurnPosition == Vector3.zero)
+                _previousTurnPosition = _turnTracker.transform.eulerAngles;
 
-            int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousLeftPosition.y);
+            int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousWalkPosition.y);
             if (differenceY > 0 && !_walking)
             {
-                _walking = true;
-                walkAhead();
+                //_walking = true;
+                //walkAhead();
+                //System.Threading.Thread.Sleep(1000);
+                //stopWalking();
+                //_walking = false;
+            }
+
+            int yDifference = Convert.ToInt32(_turnTracker.transform.eulerAngles.y - _previousTurnPosition.y);
+            if (Convert.ToInt32(_turnTracker.transform.eulerAngles.y) > 0 && Math.Abs(yDifference) > 100 && !_turning)
+            {
+                _turning = true;
+                if (_turnTracker.transform.eulerAngles.y < 100)
+                    turnRight();
+                else
+                    turnLeft();
                 System.Threading.Thread.Sleep(1000);
-                stopWalking();
-                _walking = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                turnLeft();
-            }
-
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                turnRight();
+                stopMoving();
+                _previousTurnPosition = _turnTracker.transform.eulerAngles;
+                _turning = false;
             }
         }
 
@@ -86,7 +90,7 @@ namespace NaoApi.Walker
             linear.z = 0.0f;
             angular.x = 0.0f;
             angular.y = 0.0f;
-            angular.z = 0.5f;
+            angular.z = 1.0f;
             message.linear = linear;
             message.angular = angular;
             socket.Publish(publication_id, message);
@@ -102,12 +106,12 @@ namespace NaoApi.Walker
             linear.z = 0.0f;
             angular.x = 0.0f;
             angular.y = 0.0f;
-            angular.z = -0.5f;
+            angular.z = -1.0f;
             message.linear = linear;
             message.angular = angular;
             socket.Publish(publication_id, message);
         }
-        public void stopWalking()
+        public void stopMoving()
         {
             msgs.Geometry.Vector3 linear = new msgs.Geometry.Vector3();
             msgs.Geometry.Vector3 angular = new msgs.Geometry.Vector3();

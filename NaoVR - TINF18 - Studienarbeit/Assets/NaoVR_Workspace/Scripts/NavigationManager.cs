@@ -53,7 +53,7 @@ public class NavigationManager : StateListener
 
     public void StopMoving()
     {
-        walkerController.stopWalking();
+        walkerController.stopMoving();
         Stand();
     }
 }
