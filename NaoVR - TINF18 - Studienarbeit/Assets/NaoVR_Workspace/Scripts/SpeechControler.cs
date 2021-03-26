@@ -5,6 +5,8 @@ using UnityEngine.Windows.Speech;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Diagnostics;
+using System.IO;
 
 namespace NaoApi.Speech
 {
@@ -26,6 +28,7 @@ namespace NaoApi.Speech
             message = new std_msgs.String();
             InitializeSpeechEngine();
             say("Ich bin bereit.");
+            Pose_StandZero();
         }
 
         private void InitializeSpeechEngine()
@@ -37,7 +40,7 @@ namespace NaoApi.Speech
 
         private void DictationRecognizer_DictationError(string error, int hresult)
         {
-            Debug.Log(error);
+            UnityEngine.Debug.Log(error);
         }
 
         private void DictationRecognizer_DictationResult(string text, ConfidenceLevel confidence)
@@ -85,6 +88,40 @@ namespace NaoApi.Speech
         {
             message.data = text;
             socket.Publish(publication_id, message);
+        }
+
+        private void Pose_StandZero()
+        {
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = @"C:\Python27\python.exe";
+            start.Arguments = @"C:\Users\DHBW\Desktop\alrobotposture_StandZero.py";
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.Write(result);
+                }
+            }
+        }
+
+        private void Pose_Crouch()
+        {
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = @"C:\Python27\python.exe";
+            start.Arguments = @"C:\Users\DHBW\Desktop\alrobotposture_Crouch.py";
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.Write(result);
+                }
+            }
         }
     }
 }
