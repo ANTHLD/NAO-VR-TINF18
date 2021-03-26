@@ -94,7 +94,7 @@ namespace NaoApi.Speech
         {
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = @"C:\Python27\python.exe";
-            start.Arguments = @"C:\Users\DHBW\Desktop\alrobotposture_StandZero.py";
+            start.Arguments = @"C:\Python27\alrobotposture_StandZero.py";
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             using (Process process = Process.Start(start))
@@ -111,7 +111,7 @@ namespace NaoApi.Speech
         {
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = @"C:\Python27\python.exe";
-            start.Arguments = @"C:\Users\DHBW\Desktop\alrobotposture_Crouch.py";
+            start.Arguments = @"C:\Python27\alrobotposture_Crouch.py";
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             using (Process process = Process.Start(start))
