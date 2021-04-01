@@ -18,8 +18,7 @@ namespace NaoApi.Walker
         private Valve.VR.SteamVR_TrackedObject _walkTracker;
         private Valve.VR.SteamVR_TrackedObject _turnTracker;
 
-        private Vector3 _previousWalkPosition;
-        private Vector3 _previousTurnPosition;
+        private Vector3 _currentTurnPosition;
         private bool _walking, _turning;
         private bool _crouched;
 
@@ -36,14 +35,11 @@ namespace NaoApi.Walker
 
         private void Update()
         {
-            if (_previousWalkPosition == Vector3.zero)
-                _previousWalkPosition = _walkTracker.transform.position;
-            if (_previousTurnPosition == Vector3.zero)
-                _previousTurnPosition = _turnTracker.transform.eulerAngles;
+            if (_currentTurnPosition == Vector3.zero)
+                _currentTurnPosition = _turnTracker.transform.eulerAngles;
 
             // WALK
             var walkPosition = _walkTracker.transform.position.y;
-            int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousWalkPosition.y);
             if (walkPosition > 0.75)
             {
                 _walking = true;
@@ -63,22 +59,50 @@ namespace NaoApi.Walker
             else if (crouchPosition > 2.5 && _crouched)
             {
                 _crouched = false;
-                stiffnessController.speech.Pose(stiffnessController.speech.STAND_ZERO);
+                stiffnessController.speech.Pose(stiffnessController.speech.STAND_INIT);
             }
 
-            int yDifference = Convert.ToInt32(_turnTracker.transform.eulerAngles.y - _previousTurnPosition.y);
-            if (Convert.ToInt32(_turnTracker.transform.eulerAngles.y) > 0 && Math.Abs(yDifference) > 100 && !_turning)
+            // TURN
+            var turnPosition = _turnTracker.transform.eulerAngles.y;
+            var items = GetRotateDirection(_currentTurnPosition.y, turnPosition);
+            if (!_turning)
             {
-                //_turning = true;
-                //if (_turnTracker.transform.eulerAngles.y < 100)
-                //    turnRight();
-                //else
-                //    turnLeft();
-                //System.Threading.Thread.Sleep(1000);
-                //stopMoving();
-                //_previousTurnPosition = _turnTracker.transform.eulerAngles;
-                //_turning = false;
+                if (items.Item1)
+                    TurnRobot(items.Item2, turnRight);
+                else
+                    TurnRobot(items.Item3, turnLeft);
             }
+        }
+
+        private void TurnRobot(float degrees, Action turnMethod)
+        {
+            if (degrees >= 85 && degrees <= 90)
+            {
+                _turning = true;
+                turnMethod();
+                System.Threading.Thread.Sleep(2100);
+                stopMoving();
+                _currentTurnPosition = _turnTracker.transform.eulerAngles;
+                _turning = false;
+            }
+        }
+
+        private Tuple<bool, float, float> GetRotateDirection(float from, float to)
+        {
+            float clockWise = 0f;
+            float counterClockWise = 0f;
+
+            if (from <= to)
+            {
+                clockWise = to - from;
+                counterClockWise = from + (360 - to);
+            }
+            else
+            {
+                clockWise = (360 - from) + to;
+                counterClockWise = from - to;
+            }
+            return new Tuple<bool, float, float>((clockWise <= counterClockWise), clockWise, counterClockWise);
         }
 
         public void walkAhead()

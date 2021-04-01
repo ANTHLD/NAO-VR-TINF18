@@ -21,6 +21,7 @@ namespace NaoApi.Speech
 
         public readonly string STAND_ZERO = @"C:\Python27\alrobotposture_StandZero.py";
         public readonly string CROUCH = @"C:\Python27\alrobotposture_Crouch.py";
+        public readonly string STAND_INIT = @"C:\Python27\alrobotposture_StandInit.py";
 
         public std_msgs.String message;
         void Start()
