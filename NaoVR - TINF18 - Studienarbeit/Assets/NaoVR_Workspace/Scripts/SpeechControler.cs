@@ -19,6 +19,9 @@ namespace NaoApi.Speech
         private bool _firstStart = true;
         private string _textToRead = String.Empty;
 
+        public readonly string STAND_ZERO = @"C:\Python27\alrobotposture_StandZero.py";
+        public readonly string CROUCH = @"C:\Python27\alrobotposture_Crouch.py";
+
         public std_msgs.String message;
         void Start()
         {
@@ -28,7 +31,7 @@ namespace NaoApi.Speech
             message = new std_msgs.String();
             InitializeSpeechEngine();
             say("Ich bin bereit.");
-            Pose_StandZero();
+            Pose(STAND_ZERO);
         }
 
         private void InitializeSpeechEngine()
@@ -90,28 +93,11 @@ namespace NaoApi.Speech
             socket.Publish(publication_id, message);
         }
 
-        private void Pose_StandZero()
+        public void Pose(string fileName)
         {
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = @"C:\Python27\python.exe";
-            start.Arguments = @"C:\Python27\alrobotposture_StandZero.py";
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            using (Process process = Process.Start(start))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.Write(result);
-                }
-            }
-        }
-
-        private void Pose_Crouch()
-        {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = @"C:\Python27\python.exe";
-            start.Arguments = @"C:\Python27\alrobotposture_Crouch.py";
+            start.Arguments = fileName;
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             using (Process process = Process.Start(start))

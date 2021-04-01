@@ -5,6 +5,7 @@ using UnityEngine;
 using msgs = RosSharp.RosBridgeClient.Messages;
 using System.Linq;
 using System;
+using Valve.VR;
 
 namespace NaoApi.Walker
 {
@@ -20,6 +21,7 @@ namespace NaoApi.Walker
         private Vector3 _previousWalkPosition;
         private Vector3 _previousTurnPosition;
         private bool _walking, _turning;
+        private bool _crouched;
 
         void Start()
         {
@@ -28,8 +30,8 @@ namespace NaoApi.Walker
             publication_id = socket.Advertise<msgs.Geometry.Twist>("/cmd_vel");
 
             var trackedObjects = FindObjectsOfType<Valve.VR.SteamVR_TrackedObject>();
-            _walkTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device5);
-            _turnTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device6);
+            _walkTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device2);
+            _turnTracker = trackedObjects.FirstOrDefault(u => u.index == Valve.VR.SteamVR_TrackedObject.EIndex.Device1);
         }
 
         private void Update()
@@ -42,25 +44,37 @@ namespace NaoApi.Walker
             int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousWalkPosition.y);
             if (differenceY > 0 && !_walking)
             {
-                _walking = true;
-                walkAhead();
-                System.Threading.Thread.Sleep(1000);
-                stopMoving();
-                _walking = false;
+                //_walking = true;
+                //walkAhead();
+                //System.Threading.Thread.Sleep(1000);
+                //stopMoving();
+                //_walking = false;
+            }
+
+            var yPosition = _turnTracker.transform.position.y;
+            if (yPosition < 0.7 && !_crouched)
+            {
+                _crouched = true;
+                stiffnessController.speech.Pose(stiffnessController.speech.CROUCH);
+            }
+            else if (yPosition > 2.5 && _crouched)
+            {
+                _crouched = false;
+                stiffnessController.speech.Pose(stiffnessController.speech.STAND_ZERO);
             }
 
             int yDifference = Convert.ToInt32(_turnTracker.transform.eulerAngles.y - _previousTurnPosition.y);
             if (Convert.ToInt32(_turnTracker.transform.eulerAngles.y) > 0 && Math.Abs(yDifference) > 100 && !_turning)
             {
-                _turning = true;
-                if (_turnTracker.transform.eulerAngles.y < 100)
-                    turnRight();
-                else
-                    turnLeft();
-                System.Threading.Thread.Sleep(1000);
-                stopMoving();
-                _previousTurnPosition = _turnTracker.transform.eulerAngles;
-                _turning = false;
+                //_turning = true;
+                //if (_turnTracker.transform.eulerAngles.y < 100)
+                //    turnRight();
+                //else
+                //    turnLeft();
+                //System.Threading.Thread.Sleep(1000);
+                //stopMoving();
+                //_previousTurnPosition = _turnTracker.transform.eulerAngles;
+                //_turning = false;
             }
         }
 

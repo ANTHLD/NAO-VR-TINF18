@@ -30,7 +30,7 @@ namespace NaoApi.Pose
         public void runPose(string poseName)
         {
             actionClient.poseName = poseName;
-            actionClient.rosSocket.Publish("naoqi_msgs/BodyPose", actionClient.GetGoal());
+            //actionClient.rosSocket.Publish("naoqi_msgs/BodyPose", actionClient.GetGoal());
             //actionClient.SendGoal();
 
         }
