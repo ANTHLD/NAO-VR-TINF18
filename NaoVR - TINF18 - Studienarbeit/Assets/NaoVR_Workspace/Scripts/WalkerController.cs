@@ -41,23 +41,26 @@ namespace NaoApi.Walker
             if (_previousTurnPosition == Vector3.zero)
                 _previousTurnPosition = _turnTracker.transform.eulerAngles;
 
+            // WALK
+            var walkPosition = _walkTracker.transform.position.y;
             int differenceY = Convert.ToInt32(_walkTracker.transform.position.y - _previousWalkPosition.y);
-            if (differenceY > 0 && !_walking)
+            if (walkPosition > 0.75)
             {
-                //_walking = true;
-                //walkAhead();
-                //System.Threading.Thread.Sleep(1000);
-                //stopMoving();
-                //_walking = false;
+                _walking = true;
+                walkAhead();
+                System.Threading.Thread.Sleep(1250);
+                stopMoving();
+                _walking = false;
             }
 
-            var yPosition = _turnTracker.transform.position.y;
-            if (yPosition < 0.7 && !_crouched)
+            // CROUCH
+            var crouchPosition = _turnTracker.transform.position.y;
+            if (crouchPosition < 0.7 && !_crouched)
             {
                 _crouched = true;
                 stiffnessController.speech.Pose(stiffnessController.speech.CROUCH);
             }
-            else if (yPosition > 2.5 && _crouched)
+            else if (crouchPosition > 2.5 && _crouched)
             {
                 _crouched = false;
                 stiffnessController.speech.Pose(stiffnessController.speech.STAND_ZERO);
