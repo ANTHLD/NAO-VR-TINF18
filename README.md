@@ -21,3 +21,4 @@ The previous repository is also public: https://github.com/SlaxXxX/NaoVR
   - Walking with the HTC VIVE TRACKER
   - Crouching with the HTC VIVE TRACKER
   - Turning with the HTC VIVE TRACKER
+  - NAO can repeat sentences from the User with the microphone of the HTC VIVE PRO
